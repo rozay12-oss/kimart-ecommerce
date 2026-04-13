@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.1.0"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,26 +13,31 @@ serve(async (req) => {
     const { message } = await req.json()
     const apiKey = Deno.env.get('GEMINI_API_KEY')
 
-    if (!apiKey) throw new Error("Missing GEMINI_API_KEY")
-
-    const genAI = new GoogleGenerativeAI(apiKey);
+    // Manual fetch to the exact v1beta endpoint
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`
     
-    // THE FIX: Explicitly set the apiVersion to v1beta
-    const model = genAI.getGenerativeModel(
-      { model: "gemini-1.5-flash" }, 
-      { apiVersion: 'v1beta' } 
-    );
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: message }] }]
+      })
+    })
 
-    const result = await model.generateContent(message)
-    const text = result.response.text()
+    const data = await response.json()
+    
+    // Check if Google sent back an error
+    if (data.error) throw new Error(data.error.message)
 
-    return new Response(JSON.stringify({ response: text }), {
+    const botText = data.candidates[0].content.parts[0].text
+
+    return new Response(JSON.stringify({ response: botText }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
 
   } catch (err) {
-    console.error("Function Crash:", err.message)
+    console.error("Manual Fetch Error:", err.message)
     return new Response(JSON.stringify({ error: err.message }), { 
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500 
