@@ -38,7 +38,7 @@ const Navbar = () => {
             <Link to="/" className="flex items-center gap-1 group">
               <div className="w-10 h-10 md:w-12 md:h-12 overflow-hidden">
                 <img 
-                  src="/kimart.png" // Ensure your extracted logo is named this in /public
+                  src="/KimartLogo.png" // Ensure your extracted logo is named this in /public
                   alt="Kimart Logo" 
                   className="w-full h-full object-contain group-hover:scale-110 transition-transform" 
                 />

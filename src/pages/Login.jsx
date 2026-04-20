@@ -32,7 +32,7 @@ const Login = () => {
         <div className="flex justify-center mb-6">
           <div className="h-20 w-20 overflow-hidden rounded-2xl">
             <img 
-              src="/kimart.png" 
+              src="/KimartLogo.png" 
               alt="Kimart logo" 
               className="w-full h-full object-contain" 
             />

@@ -120,3 +120,8 @@ dist
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
 
 supabase/
+
+node_modules
+.env
+dist
+.DS_Store

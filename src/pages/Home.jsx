@@ -36,9 +36,9 @@ export default function Home() {
             <motion.h1 
               initial={{ opacity: 0, letterSpacing: "1em" }}
               animate={{ opacity: 1, letterSpacing: "0.4em" }}
-              className="text-white text-4xl font-black tracking-[0.4em]"
+              className="text-[#611e02] text-4xl font-black tracking-[0.4em]"
             >
-              KIMART
+              KI<span className="text-white text-4xl font-black tracking-[0.4em]">MART</span>
             </motion.h1>
           </motion.div>
         )}
